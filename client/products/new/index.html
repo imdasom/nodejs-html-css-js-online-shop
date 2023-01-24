@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.5/dist/web/static/pretendard.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="/nodejs-html-css-js-online-shop/client/layout/index.css">
-    <link rel="stylesheet" href="/nodejs-html-css-js-online-shop/client/products/edit/index.css">
-    <link rel="stylesheet" href="/nodejs-html-css-js-online-shop/client/products/list/index.css">
+    <link rel="stylesheet" href="/client/layout/index.css">
+    <link rel="stylesheet" href="/client/products/edit/index.css">
+    <link rel="stylesheet" href="/client/products/list/index.css">
     <!--  layout  -->
-    <script src="/nodejs-html-css-js-online-shop/client/layout/index.js"></script>
+    <script src="/client/layout/index.js"></script>
     <!--  common  -->
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.7/dayjs.min.js"></script>
@@ -27,16 +27,16 @@
             <div class="menu-item open">
                 <div class="menu-item-title"><div>상품 관리</div><div class="open">-</div><div class="closed">+</div></div>
                 <div class="menu-child-wrap">
-                    <a class="menu-child active" href="/nodejs-html-css-js-online-shop/client/products/list/index.html">상품관리</a>
-                    <a class="menu-child" href="/nodejs-html-css-js-online-shop/client/categories/list/index.html">카테고리관리</a>
+                    <a class="menu-child active" href="/client/products/list/index.html">상품관리</a>
+                    <a class="menu-child" href="/client/categories/list/index.html">카테고리관리</a>
                 </div>
             </div>
             <div class="menu-item">
                 <div class="menu-item-title"><div>정책 관리</div><div class="open">-</div><div class="closed">+</div></div>
                 <div class="menu-child-wrap">
-                    <a class="menu-child" href="/nodejs-html-css-js-online-shop/client/point-policy/list/index.html">포인트정책관리</a>
-                    <a class="menu-child" href="/nodejs-html-css-js-online-shop/client/coupon-policy/list/index.html">쿠폰정책관리</a>
-                    <a class="menu-child" href="/nodejs-html-css-js-online-shop/client/stamp-policy/list/index.html">스탬프정책관리</a>
+                    <a class="menu-child" href="/client/point-policy/list/index.html">포인트정책관리</a>
+                    <a class="menu-child" href="/client/coupon-policy/list/index.html">쿠폰정책관리</a>
+                    <a class="menu-child" href="/client/stamp-policy/list/index.html">스탬프정책관리</a>
                 </div>
             </div>
         </nav>
@@ -142,7 +142,7 @@
       }).then(function (response) {
         return response.json();
       }).then(function (data) {
-        window.location.href = `/nodejs-html-css-js-online-shop/client/products/edit/index.html?id=${data.id}`;
+        window.location.href = `/client/products/edit/index.html?id=${data.id}`;
         alert('등록되었습니다');
       }).catch(function (err) {
         console.error(err);
