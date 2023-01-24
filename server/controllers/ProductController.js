@@ -74,7 +74,7 @@ function ProductController() {
 
       if (/\/api\/products\/(\d)*$/.test(pathname)) {
         if (method === 'GET') {
-          const id = pathname.split('/')[2];
+          const id = pathname.split('/')[3];
           const product = getProductById(id);
           res.statusCode = 200;
           res.setHeader('Content-Type', 'application/json');
@@ -83,7 +83,7 @@ function ProductController() {
         }
 
         if (method === 'PUT') {
-          const id = pathname.split('/')[2];
+          const id = pathname.split('/')[3];
           let body = '';
           req.on('data', function (data) {
             body += data;
@@ -103,7 +103,7 @@ function ProductController() {
         }
 
         if (method === 'DELETE') {
-          const id = pathname.split('/')[2];
+          const id = pathname.split('/')[3];
           deleteProduct(id);
           res.statusCode = 200;
           res.setHeader('Content-Type', 'application/json');
