@@ -6,12 +6,12 @@ function MainController() {
     handle: (req, res) => {
       const pathname = req.url;
 
-      if (/\/products/.test(pathname)) {
+      if (/\/api\/products/.test(pathname)) {
         ProductController.handle(req, res);
         return;
       }
 
-      if (/\/point-policy/.test(pathname)) {
+      if (/\/api\/point-policy/.test(pathname)) {
         PointPolicyController.handle(req, res);
         return;
       }

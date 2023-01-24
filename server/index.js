@@ -14,9 +14,9 @@ const server = http.createServer((req, res) => {
   try {
     MainController.handle(req, res);
   } catch(error) {
-    console.log(error);
-    res.statusCode = 500;
-    res.end();
+    const errorObj = JSON.parse(error.message);
+    res.statusCode = errorObj.statusCode;
+    res.end(error.message);
   }
 });
 

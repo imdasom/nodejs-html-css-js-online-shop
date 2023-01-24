@@ -36,7 +36,7 @@ function PointPolicyRepository() {
       if (pointPolicy) {
         return pointPolicy;
       } else {
-        throw new Error({statusCode: 204, message: 'CONTENT_NOT_FOUND'});
+        throw new Error(JSON.stringify({statusCode: 204, message: 'CONTENT_NOT_FOUND'}));
       }
     },
     update: () => {

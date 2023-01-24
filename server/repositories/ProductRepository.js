@@ -67,7 +67,7 @@ function ProductRepository() {
       if (product) {
         return product;
       } else {
-        throw new Error({statusCode: 204, message: 'CONTENT_NOT_FOUND'});
+        throw new Error(JSON.stringify({statusCode: 204, message: 'CONTENT_NOT_FOUND'}));
       }
     },
     update: function (id, newProduct) {
@@ -77,6 +77,8 @@ function ProductRepository() {
       if (newProduct.supplierName) oldProduct.supplierName = newProduct.supplierName;
       if (newProduct.category) oldProduct.category = newProduct.category;
       if (newProduct.pointPolicyId) oldProduct.pointPolicyId = newProduct.pointPolicyId;
+      if (newProduct.price) oldProduct.price = newProduct.price;
+      if (newProduct.imageUrls) oldProduct.price = newProduct.imageUrls;
       if (newProduct.status) oldProduct.status = newProduct.status;
       oldProduct.updatedAt = now('YYYYMMDDHHmmss');
       return oldProduct;
@@ -86,8 +88,11 @@ function ProductRepository() {
       product.deleted = true;
     },
     create: (product) => {
-      if (!product.name) throw new Error();
-      if (!product.category) throw new Error();
+      if (!product.name) throw new Error(JSON.stringify({ statusCode: 400, message: 'NAME_REQUIRED' }));
+      if (!product.category) throw new Error(JSON.stringify({ statusCode: 400, message: 'CATEGORY_REQUIRED' }));
+      if (!product.imageUrls) throw new Error(JSON.stringify({ statusCode: 400, message: 'IMAGE_URLS_REQUIRED' }));
+      if (!product.price) throw new Error(JSON.stringify({ statusCode: 400, message: 'PRICE_REQUIRED' }));
+      if (!product.status) throw new Error(JSON.stringify({ statusCode: 400, message: 'STATUS_REQUIRED' }));
       const createdAt = now('YYYYMMDDHHmmss');
       const newProduct = {
         id: new Date().getTime(),

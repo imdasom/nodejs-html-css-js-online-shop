@@ -18,7 +18,7 @@ function PointPolicyController() {
       const pathname = url.pathname;
       const queryString = url.searchParams;
 
-      if (/\/point-policy$/.test(pathname)) {
+      if (/\/api\/point-policy$/.test(pathname)) {
         if (method === 'GET') {
           const pointPolicyList = getPointPolicyList(queryString);
           res.statusCode = 200;
@@ -30,7 +30,7 @@ function PointPolicyController() {
         throw new Error({ statusCode: 405, message: 'METHOD_NOT_ALLOWED' });
       }
 
-      if (/\/point-policy\/(\d)*$/.test(pathname)) {
+      if (/\/api\/point-policy\/(\d)*$/.test(pathname)) {
         if (method === 'GET') {
           const id = pathname.split('/')[2];
           const pointPolicy = getPointPolicyById(id);
