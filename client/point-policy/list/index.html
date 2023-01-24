@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.5/dist/web/static/pretendard.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="/nodejs-html-css-js-online-shop/client/layout/index.css">
+    <link rel="stylesheet" href="/nodejs-html-css-js-online-shop/client/products/list/index.css">
+    <!--  layout  -->
+    <script src="/nodejs-html-css-js-online-shop/client/layout/index.js"></script>
+    <!--  common  -->
+    <script src="/nodejs-html-css-js-online-shop/client/utils/dom-utils.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.7/dayjs.min.js"></script>
+    <title>어드민 사이트</title>
+    <meta name="description" content="Vanilla HTML+CSS+JS">
+</head>
+<body>
+<div>
+    <header>
+        <img src="https://img1.daumcdn.net/thumb/R800x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FeyPIsT%2FbtqBO74U3Ky%2FjNO3yCYab0xoG7w4VsAiAk%2Fimg.jpg" width="150" />
+        <button class="primary">로그아웃</button>
+    </header>
+    <main>
+        <nav>
+            <div class="menu-item">
+                <div class="menu-item-title"><div>상품 관리</div><div class="open">-</div><div class="closed">+</div></div>
+                <div class="menu-child-wrap">
+                    <a class="menu-child" href="/nodejs-html-css-js-online-shop/client/products/list/index.html">상품관리</a>
+                    <a class="menu-child" href="/nodejs-html-css-js-online-shop/client/categories/list/index.html">카테고리관리</a>
+                </div>
+            </div>
+            <div class="menu-item open">
+                <div class="menu-item-title"><div>정책 관리</div><div class="open">-</div><div class="closed">+</div></div>
+                <div class="menu-child-wrap">
+                    <a class="menu-child active" href="/nodejs-html-css-js-online-shop/client/point-policy/list/index.html">포인트정책관리</a>
+                    <a class="menu-child" href="/nodejs-html-css-js-online-shop/client/coupon-policy/list/index.html">쿠폰정책관리</a>
+                    <a class="menu-child" href="/nodejs-html-css-js-online-shop/client/stamp-policy/list/index.html">스탬프정책관리</a>
+                </div>
+            </div>
+        </nav>
+        <div class="page-container list-page">
+            <div class="page-title">
+                포인트정책목록
+            </div>
+            <div>
+                <div>
+                    <div class="total-count"></div>
+                    <table class="data-list">
+                        <thead>
+                        <tr>
+                            <th>NO</th>
+                            <th>아이디</th>
+                            <th>이름</th>
+                            <th>생성일</th>
+                            <th>수정일</th>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <div class="page-list">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+<script type="text/javascript">
+</script>
+</html>

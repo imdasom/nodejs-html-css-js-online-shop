@@ -1,0 +1,66 @@
+.content {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.content tbody {
+    display: block;
+}
+
+.content tr {
+    border-top: 1px solid #eeeeee;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 150px 1fr 150px 1fr;
+    align-items: center;
+}
+
+.content tr:last-child {
+    border-bottom: 1px solid #eeeeee;
+}
+
+.content td, .content th {
+    padding: 0 10px;
+    text-align: center;
+    min-height: 60px;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.content th {
+    background: #fafafa;
+}
+
+.action-button-wrap {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.action-button {
+    width: 100px;
+    height: 50px;
+    cursor: pointer;
+}
+
+.form-radio {
+    display: grid;
+    grid-auto-flow: column;
+    gap: 10px;
+}
+
+.form-point-policy {
+    width: 100%;
+    display: grid;
+    grid-auto-flow: column;
+    gap: 10px;
+    grid-template-columns: auto max-content;
+}
+
+.form-item.left {
+    justify-content: flex-start;
+}

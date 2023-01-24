@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.5/dist/web/static/pretendard.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="/nodejs-html-css-js-online-shop/client/layout/index.css">
+    <link rel="stylesheet" href="/nodejs-html-css-js-online-shop/client/products/edit/index.css">
+    <link rel="stylesheet" href="/nodejs-html-css-js-online-shop/client/products/list/index.css">
+    <!--  layout  -->
+    <script src="/nodejs-html-css-js-online-shop/client/layout/index.js"></script>
+    <!--  common  -->
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.7/dayjs.min.js"></script>
+    <title>어드민 사이트</title>
+    <meta name="description" content="Vanilla HTML+CSS+JS">
+</head>
+<body>
+<div>
+    <header>
+        <img src="https://img1.daumcdn.net/thumb/R800x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FeyPIsT%2FbtqBO74U3Ky%2FjNO3yCYab0xoG7w4VsAiAk%2Fimg.jpg" width="150" />
+        <button class="primary">로그아웃</button>
+    </header>
+    <main>
+        <nav>
+            <div class="menu-item open">
+                <div class="menu-item-title"><div>상품 관리</div><div class="open">-</div><div class="closed">+</div></div>
+                <div class="menu-child-wrap">
+                    <a class="menu-child active" href="/nodejs-html-css-js-online-shop/client/products/list/index.html">상품관리</a>
+                    <a class="menu-child" href="/nodejs-html-css-js-online-shop/client/categories/list/index.html">카테고리관리</a>
+                </div>
+            </div>
+            <div class="menu-item">
+                <div class="menu-item-title"><div>정책 관리</div><div class="open">-</div><div class="closed">+</div></div>
+                <div class="menu-child-wrap">
+                    <a class="menu-child" href="/nodejs-html-css-js-online-shop/client/point-policy/list/index.html">포인트정책관리</a>
+                    <a class="menu-child" href="/nodejs-html-css-js-online-shop/client/coupon-policy/list/index.html">쿠폰정책관리</a>
+                    <a class="menu-child" href="/nodejs-html-css-js-online-shop/client/stamp-policy/list/index.html">스탬프정책관리</a>
+                </div>
+            </div>
+        </nav>
+        <div class="page-container list-page">
+            <div class="page-title">
+                상품등록
+            </div>
+            <div>
+                <table class="content">
+                    <tbody>
+                        <tr>
+                            <th>상품명</th>
+                            <td><input type="text" class="name" /></td>
+                        </tr>
+                        <tr>
+                            <th>카테고리</th>
+                            <td>
+                                <select class="category">
+                                    <option value="FOOD">식품</option>
+                                    <option value="DRINKS">음료</option>
+                                    <option value="COSMETIC">뷰티</option>
+                                    <option value="APPAREL">의류</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>가격</th>
+                            <td><input type="text" class="price"/></td>
+                        </tr>
+                        <tr>
+                            <th>상태</th>
+                            <td class="form-item left">
+                                <div class="form-radio"><input type="radio" class="status" name="status" value="READY" id="status-READY" checked /><label for="status-READY">판매대기</label></div>
+                                <div class="form-radio"><input type="radio" class="status" name="status" value="ON_SALE" id="status-ON_SALE" /><label for="status-ON_SALE">판매중</label></div>
+                                <div class="form-radio"><input type="radio" class="status" name="status" value="SALE_END" id="status-SALE_END" /><label for="status-SALE_END">판매종료</label></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>포인트정책</th>
+                            <td>
+                                <div class="form-point-policy">
+                                    <input type="text" class="pointPolicyId" readonly value="1"/>
+                                    <button class="inner-action-button">변경</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="action-button-wrap">
+                <button class="default action-button cancelButton">취소</button>
+                <button class="primary action-button submitButton">저장</button>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+<script type="text/javascript">
+  $(function(){
+
+    document.querySelector('.cancelButton').addEventListener('click', function onClickCancel() {
+      if (confirm('수정사항이 반영되지 않아요. 페이지를 나갈까요?')) {
+        history.back();
+      }
+    });
+
+    document.querySelector('.submitButton').addEventListener('click', function onClickSubmit() {
+      const form = {
+        name: document.querySelector('.name').value,
+        category: document.querySelector('.category').value,
+        price: document.querySelector('.price').value,
+        status: document.querySelector('input[name="status"]:checked').value,
+        pointPolicyId: 1,
+      };
+
+      if (!form.name) {
+        alert('이름을 입력해주세요');
+        return;
+      }
+
+      if (!form.price) {
+        alert('가격을 입력해주세요');
+        return;
+      }
+
+      if (!form.pointPolicyId) {
+        alert('포인트정책을 선택해주세요');
+        return;
+      }
+
+      if (!form.imageUrls) {
+        alert('이미지를 추가해주세요');
+        return;
+      }
+
+      fetch(`http://127.0.0.1:3001/products`, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(form)
+      }).then(function (response) {
+        return response.json();
+      }).then(function (data) {
+        window.location.href = `/nodejs-html-css-js-online-shop/client/products/edit/index.html?id=${data.id}`;
+        alert('등록되었습니다');
+      }).catch(function (err) {
+        console.error(err);
+      });
+
+    });
+  });
+</script>
+</html>

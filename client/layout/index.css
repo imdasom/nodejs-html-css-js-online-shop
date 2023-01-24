@@ -1,0 +1,188 @@
+@import url('https://fonts.googleapis.com/css2?family=La+Belle+Aurore&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poiret+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fugaz+One&family=Poiret+One&display=swap');
+
+/* reset css */
+body {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    color: black;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+a:visited {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+a:active {
+    text-decoration: none;
+}
+/* end of reset css */
+
+/* global css */
+:root {
+    --primary-color: #35C5F0;
+    --primary-font-color: white;
+    --secondary-color: #eeeeee;
+    --secondary-font-color: #727272;
+}
+
+* {
+    font-family: Pretendard;
+    font-weight: 200;
+}
+/* end of global css */
+
+header {
+    border-bottom: 1px solid #eeeeee;
+    padding: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+main {
+    display: flex;
+    flex-direction: row;
+}
+
+nav {
+    width: 200px;
+    height: 100%;
+    min-height: 100vh;
+    padding: 20px;
+    display: grid;
+    grid-auto-flow: row;
+    gap: 20px;
+    grid-auto-rows: min-content;
+}
+
+.menu-item {
+    cursor: pointer;
+    display: grid;
+    grid-auto-flow: row;
+    gap: 15px;
+}
+
+.menu-item:not(.open) .menu-child-wrap {
+    display: none;
+}
+
+.menu-item-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.menu-item.open .menu-item-title .open {
+    display: block;
+}
+
+.menu-item.open .menu-item-title .closed {
+    display: none;
+}
+
+.menu-item:not(.open) .menu-item-title .open {
+    display: none;
+}
+
+.menu-item:not(.open) .menu-item-title .closed {
+    display: block;
+}
+
+.menu-child-wrap {
+    display: grid;
+    grid-auto-flow: row;
+    gap: 15px;
+    padding-left: 20px;
+}
+
+.menu-child:hover,
+.menu-child.active {
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.page-container {
+    padding: 20px;
+    width: 100%;
+    border-left: 1px solid #eeeeee;
+    padding-bottom: 200px;
+}
+
+.page-title {
+    padding: 50px 0 20px 0;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+/* reset css */
+input:focus { outline: none !important }
+select:focus { outline: none !important }
+
+/* global components style */
+button.primary {
+    background-color: var(--primary-color);
+    color: var(--primary-font-color);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button.default {
+    background-color: var(--secondary-color);
+    color: var(--secondary-font-color);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button.danger {
+    background-color: #FF0000FF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button.inner-action-button {
+    color: var(--secondary-color);
+    background-color: var(--secondary-font-color);
+    border: none;
+    padding: 0 15px;
+    cursor: pointer;
+}
+
+input {
+    width: 100%;
+    padding: 10px 10px;
+    font-size: 16px;
+    border: 1px solid #eeeeee;
+}
+
+input[readonly] {
+    background: #f9f9f9;
+}
+
+select {
+    width: 100%;
+    border: 1px solid #eeeeee;
+    height: 40px;
+    padding: 0 10px;
+    font-size: 15px;
+}
+
