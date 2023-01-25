@@ -75,3 +75,22 @@
     padding: 5px 10px;
     border-radius: 5px;
 }
+
+.page-list {
+    display: grid;
+    grid-auto-flow: column;
+    gap: 30px;
+    width: 100%;
+    grid-template-columns: repeat(12, min-content);
+    justify-content: center;
+    padding: 30px 0;
+}
+
+.page {
+    cursor: pointer;
+}
+
+.page.active {
+    color: var(--primary-color);
+    font-weight: bold;
+}

@@ -64,3 +64,19 @@
 .form-item.left {
     justify-content: flex-start;
 }
+
+.image-wrap {
+    position: relative;
+}
+
+.image-wrap .delete-image {
+    cursor: pointer;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    background: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    padding: 2px 5px;
+    font-size: 10px;
+}

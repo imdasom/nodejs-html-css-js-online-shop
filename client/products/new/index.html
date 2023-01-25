@@ -52,6 +52,16 @@
                             <td><input type="text" class="name" /></td>
                         </tr>
                         <tr>
+                            <th>대표이미지</th>
+                            <td class="form-item left">
+                                <div class="image-wrap">
+                                    <img class="image-preview" width="100" height="100" style="margin: 10px" />
+                                    <div class="delete-image">X</div>
+                                </div>
+                                <input type="file" class="image" accept="image/*" style="display: none;"/>
+                            </td>
+                        </tr>
+                        <tr>
                             <th>카테고리</th>
                             <td>
                                 <select class="category">
@@ -103,6 +113,23 @@
       }
     });
 
+    document.querySelector('.delete-image').addEventListener('click', function (event) {
+      document.querySelector('.image').value = null;
+      document.querySelector('.image-preview').src = '';
+    });
+
+    document.querySelector('.image-preview').addEventListener('click', function (event) {
+      document.querySelector('.image').click();
+    });
+
+    document.querySelector('.image').addEventListener('change', function (event) {
+      let reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = function () {
+        document.querySelector('.image-preview').src = reader.result;
+      }
+    });
+
     document.querySelector('.submitButton').addEventListener('click', function onClickSubmit() {
       const form = {
         name: document.querySelector('.name').value,
@@ -110,6 +137,7 @@
         price: document.querySelector('.price').value,
         status: document.querySelector('input[name="status"]:checked').value,
         pointPolicyId: 1,
+        imageUrls: [document.querySelector('.image-preview').src]
       };
 
       if (!form.name) {

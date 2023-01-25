@@ -57,7 +57,13 @@
                         </tr>
                         <tr>
                             <th>대표이미지</th>
-                            <td class="form-item left"><img class="image" width="100" height="100" style="margin: 10px" /></td>
+                            <td class="form-item left">
+                                <div class="image-wrap">
+                                    <img class="image-preview" width="100" height="100" style="margin: 10px" />
+                                    <div class="delete-image">X</div>
+                                </div>
+                                <input type="file" class="image" accept="image/*" style="display: none;"/>
+                            </td>
                         </tr>
                         <tr>
                             <th>카테고리</th>
@@ -125,7 +131,7 @@
     }).then(function (data) {
       document.querySelector('.id').value = data.id;
       document.querySelector('.name').value = data.name;
-      document.querySelector('.image').src = data.imageUrls[0];
+      document.querySelector('.image-preview').src = data.imageUrls[0];
       document.querySelector('.createdAt').textContent = dayjs(data.createdAt).format('YYYY.MM.DD HH:mm:ss');
       document.querySelector('.updatedAt').textContent = dayjs(data.updatedAt).format('YYYY.MM.DD HH:mm:ss');
       document.querySelector('.category').value = data.category;
@@ -163,6 +169,23 @@
     document.querySelector('.submitButton').addEventListener('click', function onClickSubmit() {
       window.location.href = '/nodejs-html-css-js-online-shop/client/products/list/index.html';
       alert('수정되었습니다');
+    });
+
+    document.querySelector('.delete-image').addEventListener('click', function (event) {
+      document.querySelector('.image').value = null;
+      document.querySelector('.image-preview').src = '';
+    });
+
+    document.querySelector('.image-preview').addEventListener('click', function (event) {
+      document.querySelector('.image').click();
+    });
+
+    document.querySelector('.image').addEventListener('change', function (event) {
+      let reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = function () {
+        document.querySelector('.image-preview').src = reader.result;
+      }
     });
   });
 </script>

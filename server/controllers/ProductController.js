@@ -43,14 +43,13 @@ function ProductController() {
         }
 
         if (method === 'POST') {
-
           let body = '';
           req.on('data', function (data) {
             body += data;
             // Too much POST data, kill the connection!
             // 1e6 === 1 * Math.pow(10, 6) === 1 * 1000000 ~~~ 1MB
             if (body.length > 1e6)
-              throw new Error(JSON.stringify({ statusCode: 500, message: 'EXCEED_BODY_CONTENET_LENGTH' }));
+              throw new Error(JSON.stringify({ statusCode: 500, message: 'EXCEED_BODY_CONTENT_LENGTH' }));
           });
           req.on('end', function () {
             try {
@@ -90,7 +89,7 @@ function ProductController() {
             // Too much POST data, kill the connection!
             // 1e6 === 1 * Math.pow(10, 6) === 1 * 1000000 ~~~ 1MB
             if (body.length > 1e6)
-              throw new Error(JSON.stringify({ statusCode: 500, message: 'EXCEED_BODY_CONTENET_LENGTH' }));
+              throw new Error(JSON.stringify({ statusCode: 500, message: 'EXCEED_BODY_CONTENT_LENGTH' }));
           });
           req.on('end', function () {
             const params = JSON.parse(body);
