@@ -5,11 +5,14 @@
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.5/dist/web/static/pretendard.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="/nodejs-html-css-js-online-shop/client/layout/index.css">
     <link rel="stylesheet" href="/nodejs-html-css-js-online-shop/client/products/edit/index.css">
-    <link rel="stylesheet" href="/nodejs-html-css-js-online-shop/client/products/list/index.css">
     <!--  layout  -->
     <script src="/nodejs-html-css-js-online-shop/client/layout/index.js"></script>
+    <link rel="stylesheet" href="/nodejs-html-css-js-online-shop/client/layout/index.css">
+    <link rel="stylesheet" href="/nodejs-html-css-js-online-shop/client/layout/components.css">
+    <!--  modal  -->
+    <script src="/nodejs-html-css-js-online-shop/client/modal/modal.js"></script>
+    <link rel="stylesheet" href="/nodejs-html-css-js-online-shop/client/modal/modal.css">
     <!--  common  -->
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.7/dayjs.min.js"></script>
@@ -93,7 +96,7 @@
                             <td>
                                 <div class="form-point-policy">
                                     <input type="text" class="pointPolicyId" readonly />
-                                    <button class="inner-action-button">변경</button>
+                                    <button class="inner-action-button selectPointPolicyButton">변경</button>
                                 </div>
                             </td>
                         </tr>
@@ -115,6 +118,7 @@
             </div>
         </div>
     </main>
+    <div class="modal-container" style="display: none;"></div>
 </div>
 </body>
 <script type="text/javascript">
@@ -140,7 +144,7 @@
         element.checked = element.value === data.status;
       });
       document.querySelector('.pointPolicyId').dataset.id = data.pointPolicyId;
-      document.querySelector('.pointPolicyId').value = '포인트정책명';
+      document.querySelector('.pointPolicyId').value = data.pointPolicyName;
     }).catch(function (err) {
       console.error(err);
     });
@@ -167,6 +171,7 @@
     });
 
     document.querySelector('.submitButton').addEventListener('click', function onClickSubmit() {
+      // TODO fetch update api
       window.location.href = '/nodejs-html-css-js-online-shop/client/products/list/index.html';
       alert('수정되었습니다');
     });
@@ -186,6 +191,65 @@
       reader.onload = function () {
         document.querySelector('.image-preview').src = reader.result;
       }
+    });
+  });
+</script>
+<script type="text/javascript">
+  $(function() {
+
+    Modal.init();
+
+    document.addEventListener('click', function onClickSelectButton(event) {
+      if (!event.target.classList.contains('select-button')) return;
+
+      Modal.close();
+      const dataset = event.target.dataset;
+      document.querySelector('.pointPolicyId').dataset.id = dataset.id;
+      document.querySelector('.pointPolicyId').value = dataset.name;
+    });
+
+    document.querySelector('.selectPointPolicyButton').addEventListener('click', function() {
+      fetch('http://127.0.0.1:3001/api/point-policy')
+        .then(response => response.json())
+        .then((response) => {
+          Modal.open({
+            title: '포인트정책 목록',
+            content: (
+              `
+                <div class="point-policy-list">
+                    <div class="data-header">
+                        <div class="total-count">총 <strong>${response.totalCount}</strong>개</div>
+                    </div>
+                    <table class="data-list">
+                        <thead>
+                            <tr>
+                                <th>NO</th>
+                                <th>아이디</th>
+                                <th>정책명</th>
+                                <th>구매포인트</th>
+                                <th>리뷰포인트</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${response.contents.map((pointPolicy, i) => {
+                                return (
+                                  `<tr>
+                                      <td>${i + 1}</td>
+                                      <td>${pointPolicy.id}</td>
+                                      <td>${pointPolicy.name}</td>
+                                      <td>${pointPolicy.buy ? 'Y' : 'N'}</td>
+                                      <td>${pointPolicy.review ? 'Y' : 'N'}</td>
+                                      <td><button class="select-button" data-id="${pointPolicy.id}" data-name="${pointPolicy.name}">선택</button></td>
+                                  </tr>`
+                                )
+                              }).join('')}
+                        </tbody>
+                    </table>
+                </div>`
+            )
+          })
+        });
     });
   });
 </script>

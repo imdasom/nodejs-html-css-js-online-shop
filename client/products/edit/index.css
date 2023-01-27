@@ -80,3 +80,20 @@
     padding: 2px 5px;
     font-size: 10px;
 }
+
+.point-policy-list {
+    width: 800px;
+}
+
+.point-policy-list .data-list tr {
+    grid-template-columns: 100px 100px auto 100px 100px 100px;
+}
+
+.point-policy-list .select-button {
+    padding: 5px 10px;
+    font-size: 12px;
+    border: none;
+    cursor: pointer;
+    color: var(--secondary-color);
+    background-color: var(--secondary-font-color);
+}

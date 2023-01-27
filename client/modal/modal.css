@@ -1,0 +1,43 @@
+.modal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #0000005e;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background: white;
+  min-width: 300px;
+  max-height: 500px;
+  overflow: auto;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background: white;
+  position: sticky;
+  top: 0;
+}
+
+.modal-title {
+  font-family: 'Fugaz One';
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.modal-content {
+  padding: 20px;
+}
+
+.close-button {
+  cursor: pointer;
+}
