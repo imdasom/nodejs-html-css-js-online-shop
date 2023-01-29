@@ -70,13 +70,12 @@
                         </tr>
                         <tr>
                             <th>카테고리</th>
-                            <td>
-                                <select class="category">
-                                    <option value="FOOD">식품</option>
-                                    <option value="DRINKS">음료</option>
-                                    <option value="COSMETIC">뷰티</option>
-                                    <option value="APPAREL">의류</option>
-                                </select>
+                            <td class="category-wrap">
+                                <select class="category1Id"></select>
+                                <div> > </div>
+                                <select class="category2Id"></select>
+                                <div> > </div>
+                                <select class="category3Id"></select>
                             </td>
                         </tr>
                         <tr>
@@ -122,6 +121,26 @@
 </div>
 </body>
 <script type="text/javascript">
+
+  function getCategories() {
+    return fetch('http://127.0.0.1:3001/api/categories')
+      .then(response => response.json())
+      .then((response) => {
+        return response.contents;
+      });
+  }
+  function renderCategories(categories, category1Id, category2Id, category3Id) {
+    const category1List = categories;
+    const category2List = category1List.find(category1 => category1.id === Number(category1Id))?.child;
+    const category3List = category2List.find(category2 => category2.id === Number(category2Id))?.child;
+    document.querySelector('.category1Id').innerHTML = category1List.length === 0 ? `<option value="">(없음)</option>` : category1List.map(category1 => `<option value="${category1.id}">${category1.name}</option>`);
+    document.querySelector('.category1Id').value = category1Id || '';
+    document.querySelector('.category2Id').innerHTML = category2List.length === 0 ? `<option value="">(없음)</option>` : category2List.map(category2 => `<option value="${category2.id}">${category2.name}</option>`);
+    document.querySelector('.category2Id').value = category2Id || '';
+    document.querySelector('.category3Id').innerHTML = category3List.length === 0 ? `<option value="">(없음)</option>` : category3List.map(category3 => `<option value="${category3.id}">${category3.name}</option>`);
+    document.querySelector('.category3Id').value = category3Id || '';
+  }
+
   $(function(){
     const id = (new URL(location.href)).searchParams.get('id');
     fetch(`http://127.0.0.1:3001/api/products/${id}`, {
@@ -138,13 +157,15 @@
       document.querySelector('.image-preview').src = data.imageUrls[0];
       document.querySelector('.createdAt').textContent = dayjs(data.createdAt).format('YYYY.MM.DD HH:mm:ss');
       document.querySelector('.updatedAt').textContent = dayjs(data.updatedAt).format('YYYY.MM.DD HH:mm:ss');
-      document.querySelector('.category').value = data.category;
       document.querySelector('.price').value = data.price;
       document.querySelectorAll('.status').forEach(element => {
         element.checked = element.value === data.status;
       });
       document.querySelector('.pointPolicyId').dataset.id = data.pointPolicyId;
       document.querySelector('.pointPolicyId').value = data.pointPolicyName;
+      getCategories().then((categories) => {
+        renderCategories(categories, data.category1Id, data.category2Id, data.category3Id);
+      });
     }).catch(function (err) {
       console.error(err);
     });

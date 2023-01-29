@@ -97,3 +97,7 @@
     color: var(--secondary-color);
     background-color: var(--secondary-font-color);
 }
+
+.category-wrap {
+    gap: 10px;
+}
