@@ -5,10 +5,15 @@
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.5/dist/web/static/pretendard.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="/nodejs-html-css-js-online-shop/client/layout/index.css">
-    <link rel="stylesheet" href="/nodejs-html-css-js-online-shop/client/products/list/index.css">
+    <!--  page  -->
+    <link rel="stylesheet" href="/nodejs-html-css-js-online-shop/client/categories/list/index.css">
     <!--  layout  -->
     <script src="/nodejs-html-css-js-online-shop/client/layout/index.js"></script>
+    <link rel="stylesheet" href="/nodejs-html-css-js-online-shop/client/layout/index.css">
+    <link rel="stylesheet" href="/nodejs-html-css-js-online-shop/client/layout/components.css">
+    <!--  modal  -->
+    <script src="/nodejs-html-css-js-online-shop/client/modal/modal.js"></script>
+    <link rel="stylesheet" href="/nodejs-html-css-js-online-shop/client/modal/modal.css">
     <!--  common  -->
     <script src="/nodejs-html-css-js-online-shop/client/utils/dom-utils.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
@@ -44,23 +49,33 @@
             <div class="page-title">
                 카테고리목록
             </div>
-            <div>
-                <div>
-                    <div class="total-count"></div>
-                    <table class="data-list">
-                        <thead>
-                        <tr>
-                            <th>NO</th>
-                            <th>아이디</th>
-                            <th>이름</th>
-                            <th>생성일</th>
-                            <th>수정일</th>
-                        </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                    <div class="page-list">
+            <div class="depth-list-container">
+                <div class="depth-container">
+                    <div>Depth 1</div>
+                    <div class="add-form">
+                        <input tpye="text" placeholder="카테고리이름" />
+                        <button class="primary">추가</button>
                     </div>
+                    <hr />
+                    <div class="category-item-list category1Id"></div>
+                </div>
+                <div class="depth-container">
+                    <div>Depth 2</div>
+                    <div class="add-form">
+                        <input tpye="text" placeholder="카테고리이름" />
+                        <button class="primary">추가</button>
+                    </div>
+                    <hr />
+                    <div class="category-item-list category2Id"></div>
+                </div>
+                <div class="depth-container">
+                    <div>Depth 3</div>
+                    <div class="add-form">
+                        <input tpye="text" placeholder="카테고리이름" />
+                        <button class="primary">추가</button>
+                    </div>
+                    <hr />
+                    <div class="category-item-list category3Id"></div>
                 </div>
             </div>
         </div>
@@ -68,5 +83,147 @@
 </div>
 </body>
 <script type="text/javascript">
+  $(function() {
+    function initCategories() {
+      getCategories().then((categories) => {
+        const category1 = categories?.[0];
+        const category2 = category1?.child?.[0];
+        const category3 = category2?.child?.[0];
+        renderCategories(categories, category1?.id, category2?.id, category3?.id)
+      });
+    }
+
+    function getCategories() {
+      return fetch('http://127.0.0.1:3001/api/categories')
+        .then(response => response.json())
+        .then((response) => {
+          return response.contents;
+        });
+    }
+
+    function categoryToHtml(depth, category) {
+      return (`
+        <div class="category-item" data-depth="${depth}" data-id="${category.id}">
+            <input type="text" class="category-name" value="${category.name}"" readonly/>
+            <button class="inner-action-button editModeButton">수정</button>
+            <button class="inner-action-button deleteButton">삭제</button>
+        </div>
+      `)
+    }
+
+    function renderCategories(categories, category1Id, category2Id, category3Id) {
+      /* 카테고리 목록 UI */
+      const category1List = categories || [];
+      const category2List = category1List.find(category1 => category1.id === Number(category1Id))?.child || [];
+      if (!category2Id) category2Id = category2List?.[0]?.id;
+      const category3List = category2List.find(category2 => category2.id === Number(category2Id))?.child || [];
+      if (!category3Id) category3Id = category3List?.[0]?.id;
+      document.querySelector('.category1Id').innerHTML = category1List?.length === 0 ? '' : category1List.map(category => categoryToHtml(1, category)).join('');
+      document.querySelector('.category1Id').value = category1Id || '';
+      document.querySelector('.category2Id').innerHTML = category2List?.length === 0 ? '' : category2List.map(category => categoryToHtml(2, category)).join('');
+      document.querySelector('.category2Id').value = category2Id || '';
+      document.querySelector('.category3Id').innerHTML = category3List?.length === 0 ? '' : category3List.map(category => categoryToHtml(3, category)).join('');
+      document.querySelector('.category3Id').value = category3Id || '';
+
+      /* 선택된 카테고리 UI */
+      Array.prototype.forEach.call(document.querySelectorAll('.category-item'), (element) => element.classList.remove('active'));
+      document.querySelector(`.category-item[data-id="${category1Id}"]`).classList.add('active');
+      document.querySelector(`.category-item[data-id="${category2Id}"]`).classList.add('active');
+      document.querySelector(`.category-item[data-id="${category3Id}"]`).classList.add('active');
+    }
+
+    function isEditMode() {
+      return document.querySelector('.page-container').classList.contains('editMode');
+    }
+
+    document.addEventListener('click', function onClickDelete(event) {
+      if (!event.target?.classList?.contains('deleteButton')) return;
+      const $categoryItem = getParentElementByClass(event.target, 'category-item');
+      const depth = $categoryItem.dataset.depth;
+      const id = $categoryItem.dataset.id;
+
+      fetch(`http://127.0.0.1:3001/api/categories/${depth}/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      }).then(() => {
+        initCategories();
+      });
+    });
+
+    document.addEventListener('click', function onClickCategory(event) {
+      if (isEditMode()) return;
+      if (event.target.classList.contains('editModeButton')) return;
+
+      const maybeCategoryItem = getParentElementByClass(event.target, 'category-item');
+      if (!maybeCategoryItem) return;
+
+      const depth = Number(maybeCategoryItem.dataset.depth);
+      const id = Number(maybeCategoryItem.dataset.id);
+
+      let category1Id = depth === 1 ? id : document.querySelector('.category-item.active[data-depth="1"]')?.dataset.id;
+      let category2Id = depth === 2 ? id : document.querySelector('.category-item.active[data-depth="2"]')?.dataset.id;
+      let category3Id = depth === 3 ? id : document.querySelector('.category-item.active[data-depth="3"]')?.dataset.id;
+      if (depth === 1) {
+        category2Id = null;
+        category3Id = null;
+      }
+      if (depth === 2) {
+        category3Id = null;
+      }
+
+      getCategories().then((categories) => {
+        renderCategories(categories, category1Id, category2Id, category3Id)
+      });
+    });
+
+    document.addEventListener('click', function onClickEditMode(event) {
+      if (!event.target.classList.contains('editModeButton')) return;
+      const maybeCategoryItem = getParentElementByClass(event.target, 'category-item');
+      if (!maybeCategoryItem) return;
+
+      const depth = Number(maybeCategoryItem.dataset.depth);
+      const id = Number(maybeCategoryItem.dataset.id);
+
+      // edit mode인 경우
+      if (isEditMode()) {
+
+        if (event.target.classList.contains('active')) {
+          fetch(`http://127.0.0.1:3001/api/categories/${depth}/${id}`, {
+            method: 'PUT',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({name: event.target.previousElementSibling.value})
+          }).then(() => {
+            initCategories();
+            document.querySelector('.page-container').classList.remove('editMode');
+            event.target.classList.remove('active');
+            event.target.innerHTML = '수정';
+            event.target.previousElementSibling.readOnly = true;
+          });
+          return;
+        }
+        alert('먼저 작업하던 데이터를 저장해주세요');
+        return;
+      }
+
+      // edit mode가 아닌 경우
+      document.querySelector('.page-container').classList.add('editMode');
+      event.target.classList.add('active');
+      event.target.innerHTML = '저장';
+      event.target.previousElementSibling.readOnly = false;
+      event.target.previousElementSibling.select();
+    });
+
+
+
+
+    /* page init */
+    initCategories();
+  });
 </script>
 </html>

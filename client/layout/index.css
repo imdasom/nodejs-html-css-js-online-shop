@@ -167,11 +167,21 @@ button.inner-action-button {
     cursor: pointer;
 }
 
+input ~ button.inner-action-button {
+    background-color: var(--secondary-color);
+    color: var(--secondary-font-color);
+    border: none;
+    padding: 0px 10px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
 input {
     width: 100%;
     padding: 10px 10px;
     font-size: 16px;
     border: 1px solid #eeeeee;
+    box-sizing : border-box;
 }
 
 input[readonly] {
@@ -186,3 +196,6 @@ select {
     font-size: 15px;
 }
 
+hr {
+    margin: 0;
+}
