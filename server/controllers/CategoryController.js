@@ -1,9 +1,8 @@
-import {HOST_URL} from "../constants.js";
-import {parseQueryString} from "../utils/network-utils.js";
-import PointPolicyRepository from "../repositories/PointPolicyRepository.js";
-import ProductService from "../services/ProductService.js";
+import { HOST_URL } from "../constants.js";
+import { parseQueryString } from "../utils/network-utils.js";
+import CategoryService from "../services/CategoryService.js";
 
-function ProductController() {
+function CategoryController() {
   return {
     handle: (req, res) => {
       const method = req.method;
@@ -13,16 +12,21 @@ function ProductController() {
         ? parseQueryString(req.url.split('?')[1])
         : null;
 
-      if (/\/api\/products$/.test(pathname)) {
+      if (/\/api\/categories$/.test(pathname)) {
         if (method === 'GET') {
-          const productList = ProductService.getProductList(queryString);
+          const categoryList = CategoryService.getCategoryList();
           res.statusCode = 200;
           res.setHeader('Content-Type', 'application/json');
-          res.end(JSON.stringify(productList));
+          res.end(JSON.stringify(categoryList));
           return;
         }
 
+        throw new Error(JSON.stringify({ statusCode: 405, message: 'METHOD_NOT_ALLOWED' }));
+      }
+
+      if (/\/api\/categories\/(\d)*$/.test(pathname)) {
         if (method === 'POST') {
+          const depth = pathname.split('/')[3];
           let body = '';
           req.on('data', function (data) {
             body += data;
@@ -34,10 +38,10 @@ function ProductController() {
           req.on('end', function () {
             try {
               const params = JSON.parse(body);
-              const product = ProductService.createProduct(params);
+              const category = CategoryService.createCategory(depth, params);
               res.statusCode = 200;
               res.setHeader('Content-Type', 'application/json');
-              res.end(JSON.stringify(product));
+              res.end(JSON.stringify(category));
             } catch (error) {
               const errorObj = JSON.parse(error.message);
               res.statusCode = errorObj.statusCode;
@@ -51,22 +55,20 @@ function ProductController() {
         throw new Error(JSON.stringify({ statusCode: 405, message: 'METHOD_NOT_ALLOWED' }));
       }
 
-      if (/\/api\/products\/(\d)*$/.test(pathname)) {
+      if (/\/api\/categories\/(\d)\/(\d)*$/.test(pathname)) {
         if (method === 'GET') {
-          const id = pathname.split('/')[3];
-          const product = ProductService.getProductById(id);
-          const pointPolicy = PointPolicyRepository.selectById(product.pointPolicyId);
+          const depth = pathname.split('/')[3];
+          const id = pathname.split('/')[4];
+          const category = CategoryService.getCategoryById(id, depth);
           res.statusCode = 200;
           res.setHeader('Content-Type', 'application/json');
-          res.end(JSON.stringify({
-            ...product,
-            pointPolicyName: pointPolicy.name
-          }));
+          res.end(JSON.stringify(category));
           return;
         }
 
         if (method === 'PUT') {
-          const id = pathname.split('/')[3];
+          const depth = pathname.split('/')[3];
+          const id = pathname.split('/')[4];
           let body = '';
           req.on('data', function (data) {
             body += data;
@@ -77,17 +79,18 @@ function ProductController() {
           });
           req.on('end', function () {
             const params = JSON.parse(body);
-            const product = ProductService.updateProduct(id, params);
+            const category = CategoryService.updateCategory(id, depth, params);
             res.statusCode = 200;
             res.setHeader('Content-Type', 'application/json');
-            res.end(JSON.stringify(product));
+            res.end(JSON.stringify(category));
           });
           return;
         }
 
         if (method === 'DELETE') {
-          const id = pathname.split('/')[3];
-          ProductService.deleteProduct(id);
+          const depth = pathname.split('/')[3];
+          const id = pathname.split('/')[4];
+          CategoryService.deleteCategory(id, depth);
           res.statusCode = 200;
           res.setHeader('Content-Type', 'application/json');
           res.end();
@@ -100,4 +103,4 @@ function ProductController() {
   }
 }
 
-export default ProductController();
+export default CategoryController();

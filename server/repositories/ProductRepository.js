@@ -24,6 +24,15 @@ function ProductRepository() {
         if (filter.category && product.category !== filter.category) {
           return false;
         }
+        if (filter.category1Id && product.category1Id !== filter.category1Id) {
+          return false;
+        }
+        if (filter.category2Id && product.category2Id !== filter.category2Id) {
+          return false;
+        }
+        if (filter.category3Id && product.category3Id !== filter.category3Id) {
+          return false;
+        }
         if (filter.supplierId && product.supplierId !== filter.supplierId) {
           return false;
         }
@@ -63,25 +72,22 @@ function ProductRepository() {
       };
     },
     selectById: function (id) {
-      const product = list.find(product => product.id === Number(id));
-      if (product) {
-        return product;
-      } else {
-        throw new Error(JSON.stringify({statusCode: 204, message: 'CONTENT_NOT_FOUND'}));
-      }
+      return list.find(product => product.id === Number(id));
     },
     update: function (id, newProduct) {
       const oldProduct = this.selectById(id);
       if (newProduct.name) oldProduct.name = newProduct.name;
       if (newProduct.supplierId) oldProduct.supplierId = newProduct.supplierId;
       if (newProduct.supplierName) oldProduct.supplierName = newProduct.supplierName;
-      if (newProduct.category) oldProduct.category = newProduct.category;
+      if (newProduct.category) oldProduct.category = newProduct.category; // @deprecated
+      if (newProduct.category1Id !== undefined) oldProduct.category1Id = newProduct.category1Id;
+      if (newProduct.category2Id !== undefined) oldProduct.category2Id = newProduct.category2Id;
+      if (newProduct.category3Id !== undefined) oldProduct.category3Id = newProduct.category3Id;
       if (newProduct.pointPolicyId) oldProduct.pointPolicyId = newProduct.pointPolicyId;
       if (newProduct.price) oldProduct.price = newProduct.price;
       if (newProduct.imageUrls) oldProduct.price = newProduct.imageUrls;
       if (newProduct.status) oldProduct.status = newProduct.status;
       oldProduct.updatedAt = now('YYYYMMDDHHmmss');
-      return oldProduct;
     },
     delete: function (id) {
       const product = this.selectById(id);

@@ -1,5 +1,6 @@
 import ProductController from "./ProductController.js";
 import PointPolicyController from "./PointPolicyController.js";
+import CategoryController from "./CategoryController.js";
 
 function MainController() {
   return {
@@ -13,6 +14,11 @@ function MainController() {
 
       if (/\/api\/point-policy/.test(pathname)) {
         PointPolicyController.handle(req, res);
+        return;
+      }
+
+      if (/\/api\/categories/.test(pathname)) {
+        CategoryController.handle(req, res);
         return;
       }
 
