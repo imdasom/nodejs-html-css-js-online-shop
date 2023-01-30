@@ -40,7 +40,7 @@ function ProductService() {
       if (product.category2Id) product.category2Id = Number(product.category2Id);
       if (product.category3Id) product.category3Id = Number(product.category3Id);
       ProductRepository.update(id, product);
-      return getProductById(id);
+      return ProductRepository.selectById(id);
     },
     deleteProduct: (id) => {
       return ProductRepository.delete(id);

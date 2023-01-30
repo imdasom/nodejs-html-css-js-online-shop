@@ -192,9 +192,45 @@
     });
 
     document.querySelector('.submitButton').addEventListener('click', function onClickSubmit() {
-      // TODO fetch update api
-      window.location.href = '/nodejs-html-css-js-online-shop/client/products/list/index.html';
-      alert('수정되었습니다');
+      const form = {
+        name: document.querySelector('.name').value,
+        price: document.querySelector('.price').value,
+        status: document.querySelector('input[name="status"]:checked').value,
+        pointPolicyId: document.querySelector('.pointPolicyId').dataset.id,
+        imageUrls: [document.querySelector('.image-preview').src],
+      };
+
+      if (!form.name) {
+        alert('이름을 입력해주세요');
+        return;
+      }
+
+      if (!form.price) {
+        alert('가격을 입력해주세요');
+        return;
+      }
+
+      if (!form.pointPolicyId) {
+        alert('포인트정책을 선택해주세요');
+        return;
+      }
+
+      if (!form.imageUrls) {
+        alert('이미지를 추가해주세요');
+        return;
+      }
+
+      fetch(`http://127.0.0.1:3001/api/products/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(form)
+      }).then(() => {
+        window.location.href = '/nodejs-html-css-js-online-shop/client/products/list/index.html';
+        alert('수정되었습니다');
+      });
     });
 
     document.querySelector('.delete-image').addEventListener('click', function (event) {
