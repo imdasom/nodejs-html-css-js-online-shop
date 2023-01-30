@@ -85,7 +85,7 @@ function ProductRepository() {
       if (newProduct.category3Id !== undefined) oldProduct.category3Id = newProduct.category3Id;
       if (newProduct.pointPolicyId) oldProduct.pointPolicyId = newProduct.pointPolicyId;
       if (newProduct.price) oldProduct.price = newProduct.price;
-      if (newProduct.imageUrls) oldProduct.price = newProduct.imageUrls;
+      if (newProduct.imageUrls) oldProduct.imageUrls = newProduct.imageUrls;
       if (newProduct.status) oldProduct.status = newProduct.status;
       oldProduct.updatedAt = now('YYYYMMDDHHmmss');
     },
