@@ -1,5 +1,6 @@
 import ProductRepository from "../repositories/ProductRepository.js";
 import CategoryRepository from "../repositories/CategoryRepository.js";
+import PointPolicyRepository from "../repositories/PointPolicyRepository.js";
 
 function ProductService() {
   return {
@@ -9,9 +10,9 @@ function ProductService() {
       if (filter.category3Id) filter.category3Id = Number(filter.category3Id);
       const productList = ProductRepository.select(filter);
       productList?.contents.forEach(product => {
-        const category1 = CategoryRepository.selectById(product.category1Id, 1);
-        const category2 = CategoryRepository.selectById(product.category2Id, 2);
-        const category3 = CategoryRepository.selectById(product.category3Id, 3);
+        const category1 = CategoryRepository.selectById(product?.category1Id, 1);
+        const category2 = CategoryRepository.selectById(product?.category2Id, 2);
+        const category3 = CategoryRepository.selectById(product?.category3Id, 3);
         product.category1Name = category1?.name;
         product.category2Name = category2?.name;
         product.category3Name = category3?.name;
@@ -21,12 +22,14 @@ function ProductService() {
     getProductById: (id) => {
       const product = ProductRepository.selectById(Number(id));
       if (product) {
-        const category1 = CategoryRepository.selectById(product.category1Id, 1);
-        const category2 = CategoryRepository.selectById(product.category2Id, 2);
-        const category3 = CategoryRepository.selectById(product.category3Id, 3);
+        const category1 = CategoryRepository.selectById(product?.category1Id, 1);
+        const category2 = CategoryRepository.selectById(product?.category2Id, 2);
+        const category3 = CategoryRepository.selectById(product?.category3Id, 3);
         product.category1Name = category1?.name;
         product.category2Name = category2?.name;
         product.category3Name = category3?.name;
+        const pointPolicy = PointPolicyRepository.selectById(product?.pointPolicyId);
+        product.pointPolicyName = pointPolicy?.name;
         return product;
       } else {
         throw new Error(JSON.stringify({statusCode: 204, message: 'CONTENT_NOT_FOUND'}));

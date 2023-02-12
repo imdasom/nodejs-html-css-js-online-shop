@@ -95,10 +95,10 @@ function ProductRepository() {
     },
     create: (product) => {
       if (!product.name) throw new Error(JSON.stringify({ statusCode: 400, message: 'NAME_REQUIRED' }));
-      if (!product.category) throw new Error(JSON.stringify({ statusCode: 400, message: 'CATEGORY_REQUIRED' }));
       if (!product.imageUrls) throw new Error(JSON.stringify({ statusCode: 400, message: 'IMAGE_URLS_REQUIRED' }));
       if (!product.price) throw new Error(JSON.stringify({ statusCode: 400, message: 'PRICE_REQUIRED' }));
       if (!product.status) throw new Error(JSON.stringify({ statusCode: 400, message: 'STATUS_REQUIRED' }));
+      if (!product.category1Id) throw new Error(JSON.stringify({ statusCode: 400, message: 'CATEGORY_1_ID_REQUIRED' }));
       const createdAt = now('YYYYMMDDHHmmss');
       const newProduct = {
         id: new Date().getTime(),

@@ -32,12 +32,7 @@ function PointPolicyRepository() {
       };
     },
     selectById: (id) => {
-      const pointPolicy = list.find(item => item.id === Number(id));
-      if (pointPolicy) {
-        return pointPolicy;
-      } else {
-        throw new Error(JSON.stringify({statusCode: 204, message: 'CONTENT_NOT_FOUND'}));
-      }
+      return list.find(item => item.id === Number(id));
     },
     update: () => {
       // TODO

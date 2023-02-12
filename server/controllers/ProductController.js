@@ -1,6 +1,5 @@
 import {HOST_URL} from "../constants.js";
 import {parseQueryString} from "../utils/network-utils.js";
-import PointPolicyRepository from "../repositories/PointPolicyRepository.js";
 import ProductService from "../services/ProductService.js";
 
 function ProductController() {
@@ -55,13 +54,9 @@ function ProductController() {
         if (method === 'GET') {
           const id = pathname.split('/')[3];
           const product = ProductService.getProductById(id);
-          const pointPolicy = PointPolicyRepository.selectById(product.pointPolicyId);
           res.statusCode = 200;
           res.setHeader('Content-Type', 'application/json');
-          res.end(JSON.stringify({
-            ...product,
-            pointPolicyName: pointPolicy.name
-          }));
+          res.end(JSON.stringify(product));
           return;
         }
 
